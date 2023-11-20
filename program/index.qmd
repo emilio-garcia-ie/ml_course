@@ -1,0 +1,88 @@
+---
+title: "Introduction"
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: false
+---
+
+¡Bienvenido al seminario!
+
+## Estructura del programa
+
+#### Clase 1: El aprendizaje automático en producción es diferente
+
+* Una descripción general de los componentes de un sistema de aprendizaje automático.
+* El papel de los datos en aplicaciones del mundo real.
+* 4 estrategias de muestreo populares para recopilar datos
+* Estrategias de etiquetado y una rápida introducción a la supervisión débil y al aprendizaje activo.
+* División de datos y cómo la fuga de datos puede destruir sus modelos
+* Creación de buenas funciones y una introducción rápida a la imputación, estandarización y codificación.
+* Procesamiento de datos a escala utilizando paralelismo de datos.
+* Uso de canalizaciones para orquestar flujos de trabajo de aprendizaje automático
+* Una arquitectura de plantilla de un sistema de aprendizaje automático listo para producción.
+* Comprensión del paso de procesamiento y los trab
+
+#### Clase 2: Construyendo Modelos y el Pipeline de Entrenamiento
+
+* La primera regla de la ingeniería de aprendizaje automático.
+* Un proceso de 3 pasos para resolver un problema utilizando el aprendizaje automático
+* 9 consejos para seleccionar el mejor modelo de aprendizaje automático para su solución
+* Estrategias para trabajar con datos desequilibrados, lidiar con eventos raros y una introducción rápida al aprendizaje sensible a los costos.
+* La razón por la que no debes equilibrar tus datos
+* Una introducción al ajuste de hiperparámetros.
+* La importancia de la reproducibilidad y una rápida introducción al seguimiento de experimentos.
+* Entrenamiento distribuido utilizando datos y paralelismo de modelos.
+* Comprensión de los pasos de capacitación y ajuste de SageMaker, y de los trabajos de capacitación y ajuste
+
+#### Clase 3: Evaluación y Versionado de Modelos
+
+* La diferencia entre buenos modelos y modelos útiles
+* Enmarcar las métricas de evaluación en el contexto del desempeño empresarial.
+* Un proceso de 8 pasos para evaluar modelos de aprendizaje automático.
+* Introducción al backtesting
+* Cómo lidiar con ejemplos desproporcionadamente importantes y casos raros
+* Estrategias para determinar si un modelo es justo y robusto ante cambios futuros.
+* Un proceso de 3 pasos para realizar análisis de errores y medir el impacto de posibles mejoras.
+* Cómo determinar si las predicciones individuales son útiles
+* Evaluación de modelos de lenguaje grandes mediante evaluación supervisada y autoevaluación
+* Una introducción al control de versiones de modelos.
+* Comprensión del registro, la condición y los pasos del modelo de SageMaker
+
+
+#### Clase 4: Implementación de Modelos y Servicio de Predicciones
+
+* ¿Cómo afectan el rendimiento, la velocidad y el costo del modelo a los modelos en producción?
+* Latencia, rendimiento y sus relaciones.
+* Comprender la inferencia bajo demanda y la inferencia por lotes y cuándo usar cada una
+* Cómo hacer que los modelos se ejecuten rápidamente usando la compresión de modelos y una rápida introducción a la cuantificación y la destilación del conocimiento.
+* Implementación de modelos en puntos finales dedicados y multimodelo
+* Una comparación de las herramientas que puede utilizar para realizar predicciones.
+* Diseño de un canal de inferencia de 3 componentes
+* Comprender la estructura interna de un SageMaker Endpoint
+* Comprensión de PipelineModel de SageMaker y Amazon EventBridge
+
+
+#### Clase 5: Cambios en la Distribución de Datos y Monitoreo de Modelos
+
+* Los 3 problemas más comunes que enfrentará tu modelo en producción
+* Una introducción a los cambios en la distribución de datos, los casos extremos y los bucles de retroalimentación no deseados.
+* Predicciones catastróficas y el problema de los casos extremos.
+* Comprender el cambio de covariables y la deriva de conceptos.
+* Monitoreo de violaciones de esquemas, estadísticas de datos, rendimiento del modelo, distribución de predicciones y cambios en los comentarios de los usuarios.
+* Las 3 estrategias para mantener sus modelos funcionando a pesar de los cambios en la distribución de datos
+* Comprensión del paso de transformación, el paso de control de calidad, los trabajos de transformación y el seguimiento de trabajos de SageMaker
+
+
+#### Sesión 6: Aprendizaje Continuo y Pruebas en Producción
+
+* La importancia del Aprendizaje Continuo y por qué toda empresa quiere hacerlo
+* 3 desafíos al implementar el Aprendizaje Continuo
+* Un plan de 4 pasos para implementar el Aprendizaje Continuo
+* Cómo determinar qué datos utilizar para volver a entrenar un modelo
+* Un plan progresivo de 3 pasos para decidir con qué frecuencia debes volver a entrenar tus modelos
+* Las diferencias entre entrenar desde cero y entrenamiento incremental
+* Una introducción a las pruebas en producción.
+* 5 estrategias para probar modelos en producción: pruebas A/B, implementaciones en la sombra, lanzamientos canary, experimentos de entrelazado y bandidos con múltiples brazos.
+* Aspectos destacados del programa.

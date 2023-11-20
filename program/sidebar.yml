@@ -1,0 +1,7 @@
+website:
+  sidebar:
+    contents:
+      - index.qmd
+      - setup.qmd
+      - project.qmd
+      - cohort.ipynb

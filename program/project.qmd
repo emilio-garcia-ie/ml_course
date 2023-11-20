@@ -1,0 +1,31 @@
+---
+title: "Proyecto del Seminario"
+---
+
+El objetivo de este proyecto es construir un pipeline de entrenamiento para preprocesar, entrenar, evaluar y registrar un modelo de aprendizaje automático.
+
+Comenzarás desde el pipeline de plantilla que discutimos durante el programa y realizarás los cambios necesarios en él. Antes de realizar cualquier cambio, asegúrate de poder ejecutar el pipeline desde la Sesión 4 sin problemas.
+
+El proyecto tiene tres niveles diferentes de complejidad. Elije el que te sientas más cómodo abordando primero.
+
+## Complejidad Simple
+
+Queremos reemplazar el conjunto de datos de pingüinos con un problema de clasificación diferente. Siéntete libre de utilizar cualquier conjunto de datos que desees. Si no tienes ninguna idea, aquí tienes tres opciones entre las que puedes elegir:
+
+1. [Iris flowers](https://archive.ics.uci.edu/dataset/53/iris) dataset - Este es un problema de clasificación multiclase donde predecirás la especie de la flor dadas las medidas de las flores de iris.
+2. [Adult income](https://archive.ics.uci.edu/dataset/2/adult) dataset - Este es un problema de clasificación binaria donde predecirás si los ingresos de una persona superan los $50,000 al año basándote en datos del censo.
+3. [Banknote authentication](https://archive.ics.uci.edu/dataset/267/banknote+authentication) dataset - ste es un problema de clasificación binaria donde predecirás si un billete dado es auténtico a partir de las medidas de una fotografía.
+
+Comienza con el pipeline de la clase 4 y modifica los scripts de preprocesamiento, entrenamiento y evaluación para utilizar el nuevo conjunto de datos.
+
+## Complejidad Intermedia
+
+Queremos reemplazar TensorFlow con PyTorch en el pipeline que construimos en la clase 4. Todo lo demás permanecerá igual, excepto el marco para entrenar el modelo.
+
+Comienza con el pipeline de la clase 4 y modifica los scripts de entrenamiento y evaluación para entrenar y evaluar el modelo usando PyTorch. Ten en cuenta que deberás utilizar un [PyTorch estimator](https://sagemaker.readthedocs.io/en/stable/frameworks/pytorch/sagemaker.pytorch.html) para configurar el Paso de Entrenamiento y un [PyTorch processor](https://sagemaker.readthedocs.io/en/stable/frameworks/pytorch/sagemaker.pytorch.html#pytorch-processor) para configurar el paso de evaluación.
+
+## Complejidad Avanzada
+
+En esta etapa, queremos combinar el reemplazo del conjunto de datos de pingüinos con el reemplazo de TensorFlow por PyTorch en el pipeline.
+
+Comienza con el pipeline de la Sesión 4 y realiza los cambios necesarios descritos en las secciones de complejidad simple e intermedia.

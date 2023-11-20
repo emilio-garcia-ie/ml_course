@@ -1,0 +1,234 @@
+# Instrucciones de Configuración
+
+1.- Cree y active un entorno virtual
+
+```
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+```
+
+2.- Una vez que el entorno virtual esté activo, puede actualizar pip e instalar las bibliotecas del archivo requirements.txt:
+
+```
+$ python -m pip install --upgrade pip
+$ pip install -r requirements.txt
+```
+
+3.- Usaremos Jupyter Notebooks durante el programa. Con el siguiente comando, puede instalar un kernel de Jupyter en el entorno virtual. Si usa Visual Studio Code, puede apuntar su kernel al entorno virtual y lo instalará automáticamente:
+
+```
+$ python -m ipykernel install --user --name=.venv
+```
+
+4.- Instale Docker. Encontrará instrucciones de instalación en su sitio para su entorno particular. Después de instalarlo, puede verificar que Docker se esté ejecutando usando el siguiente comando:
+
+```
+$ docker ps
+```
+
+
+## Configurando AWS
+
+1.-Si aún no tienes una, crea una nueva cuenta de AWS. Puedes indicar que la cuenta es para uso personal y que tienes interés en aprender sobre Machine Learning, esto te dará acceso inmediato al hardware que necesitamos para el seminario.
+
+2.- Necesitaremos acceso a las instancias ml.m5.xlarge. De forma predeterminada, la cuota para una cuenta nueva es cero, pero el consejo anterior podría solucionar este problema. Si no es así, deberías solicitar un aumento de cuota.
+
+3.- Puede hacer esto en su cuenta de AWS en Cuotas de servicio > Servicios de AWS > Amazon SageMaker. Busque ml.m5.xlarge y solicita un aumento de cuota para processing jobs, training jobs, transform jobs y uso de sagemaker endpoint. Solicita un mínimo de 3 instancias.
+
+4.- Necesitarás acceso a AWS desde tu entorno local. Instala AWS CLI y [configúralo](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) con tu aws_access_key_id y aws_secret_access_key.
+
+5.- Para obtener una clave de acceso, primero debe abrir el servicio IAM, buscar su usuario, seleccionar Credenciales de seguridad, luego asignar un dispositivo de autenticación multifactor (MFA) y seguir las instrucciones. Después de la configuración y la verificación, puedes hacer clic para crear una clave de acceso.
+
+6.- Una vez que termines de configurar la CLI, crea un nuevo depósito S3 donde almacenaremos los datos y todos los recursos que crearemos durante el seminario. El nombre del depósito debe ser único:
+
+```
+$ aws s3api create-bucket --bucket [YOUR-BUCKET-NAME] \
+    --create-bucket-configuration LocationConstraint="eu-west-1"
+```
+
+7.- Cargue el conjunto de datos en el depósito S3 que acabas de crear:
+
+```bash
+$ aws s3 cp program/penguins.csv s3://[YOUR-BUCKET-NAME]/penguins/data/data.csv
+```
+
+## Configurando SageMaker
+
+1.- Si aún no tienes uno, crea un dominio de SageMaker. El vídeo [Introducción a Amazon SageMaker Studio](https://www.youtube.com/watch?v=oBx_o57gDGY) te guiará a través del proceso.
+
+2.- Una vez que hayas terminado, ejecuta el siguiente comando para devolver el ID de dominio y el nombre del perfil de usuario de su dominio de SageMaker:
+
+```bash
+$ aws sagemaker list-user-profiles | grep -E '"DomainId"|"UserProfileName"' \
+    | awk -F'[:,"]+' '{print $2":"$3 $4 $5}'
+```
+
+3.- Utiliza `DomainId` y `UserProfileName` de la respuesta anterior y reemplázalos en el siguiente comando que devolvera la función de ejecución adjunta al usuario:
+
+```bash
+$ aws sagemaker describe-user-profile \
+    --domain-id [YOUR-DOMAIN-ID] \
+    --user-profile-name [YOUR-USER-PROFILE-NAME] \
+    | grep -E "ExecutionRole" | awk -F'["]' '{print $2": "$4}'
+```
+
+4.- Cree un archivo `.env` en el directorio raíz de su repositorio con el siguiente contenido. Asegúrese de reemplazar el valor de cada variable con el valor correcto:
+
+```bash
+BUCKET=[YOUR-BUCKET-NAME]
+DOMAIN_ID=[YOUR-DOMAIN-ID]
+USER_PROFILE=[YOUR-USER-PROFILE]
+ROLE=[YOUR-EXECUTION-ROLE]
+```
+
+5.- Abre el servicio Amazon IAM, busca el rol de ejecución anterior y edita la política de ejecución personalizada que se le asignó. Edita los permisos de la Política de ejecución y reemplácelos con el JSON a continuación. Estos permisos le darán al rol de ejecución acceso a los recursos que usaremos durante el seminario:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "IAM0",
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateServiceLinkedRole"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "iam:AWSServiceName": [
+                        "autoscaling.amazonaws.com",
+                        "ec2scheduled.amazonaws.com",
+                        "elasticloadbalancing.amazonaws.com",
+                        "spot.amazonaws.com",
+                        "spotfleet.amazonaws.com",
+                        "transitgateway.amazonaws.com"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "IAM1",
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateRole",
+                "iam:DeleteRole",
+                "iam:PassRole",
+                "iam:AttachRolePolicy",
+                "iam:DetachRolePolicy",
+                "iam:CreatePolicy"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "Lambda",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:CreateFunction",
+                "lambda:DeleteFunction",
+                "lambda:InvokeFunctionUrl",
+                "lambda:InvokeFunction",
+                "lambda:UpdateFunctionCode",
+                "lambda:InvokeAsync",
+                "lambda:AddPermission",
+                "lambda:RemovePermission"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "SageMaker",
+            "Effect": "Allow",
+            "Action": [
+                "sagemaker:UpdateDomain",
+                "sagemaker:UpdateUserProfile"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "CloudWatch",
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:PutMetricData",
+                "cloudwatch:GetMetricData",
+                "cloudwatch:DescribeAlarmsForMetric",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "logs:CreateLogGroup",
+                "logs:DescribeLogStreams"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ECR",
+            "Effect": "Allow",
+            "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "S3",
+            "Effect": "Allow",
+            "Action": [
+                "s3:CreateBucket",
+                "s3:ListBucket",
+                "s3:GetBucketLocation",
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": "arn:aws:s3:::*"
+        },
+        {
+            "Sid": "EventBridge",
+            "Effect": "Allow",
+            "Action": [
+                "events:PutRule",
+                "events:PutTargets"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
+6.- Finalmente, busca la sección `Trust relationships`  en el mismo rol de ejecución, edita la configuración y reemplázala con el siguiente JSON:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": [
+                    "sagemaker.amazonaws.com", 
+                    "events.amazonaws.com"
+                ]
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
+```
+
+## Apple silicon
+
+Si tu entorno local se ejecuta en Apple Silicon, debes crear una imagen de docker de TensorFlow para ejecutar algunos del pipeline en tu computadora local. Esto se debe a que SageMaker no proporciona imágenes de TensorFlow listas para usar y compatibles con Apple Silicon.
+
+Puedes crear la imagen ejecutando el siguiente comando:
+
+```bash
+$ docker build -t sagemaker-tensorflow-toolkit-local container/.
+```
+
+Después de crear esta imagen de Docker, la computadora portátil la usará automáticamente cuando ejecutes la canalización en modo local en tu Mac. No hay nada más que debas hacer.
+
+## Ejecutando el código en SageMaker Studio
+
+Puedes ejecutar el código del seminario desde tu entorno local. Si planeas ejecutarlo desde SageMaker Studio, deberás crear una configuración del ciclo de vida para actualizar el kernel.
+
+Para hacer esto, necesitas ejecutar el cuaderno `studio-setup.ipynb` una vez dentro de SageMaker Studio. Después de hacer esto, puedes usar el kernel **TensorFlow 2.11 Python 3.9 CPU Optimized** con el script de inicio llamado `ml-seminario.`

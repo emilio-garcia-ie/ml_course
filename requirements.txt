@@ -1,0 +1,15 @@
+numpy
+pandas
+matplotlib
+scikit-learn
+python-dotenv
+ipytest
+tensorflow
+sagemaker
+sagemaker[local]
+black
+flake8
+nbformat
+nbdev
+nbclient
+ipykernel

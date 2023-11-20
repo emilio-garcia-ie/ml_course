@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "ml.***"
+  site-url: "https://**.github.io/**"
+  description: "Machine Learning Seminario"
+  repo-branch: main
+  repo-url: "https://github.com/***/ml.***"
