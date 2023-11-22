@@ -231,4 +231,4 @@ Después de crear esta imagen de Docker, la computadora portátil la usará auto
 
 Puedes ejecutar el código del seminario desde tu entorno local. Si planeas ejecutarlo desde SageMaker Studio, deberás crear una configuración del ciclo de vida para actualizar el kernel.
 
-Para hacer esto, necesitas ejecutar el cuaderno `studio-setup.ipynb` una vez dentro de SageMaker Studio. Después de hacer esto, puedes usar el kernel **TensorFlow 2.11 Python 3.9 CPU Optimized** con el script de inicio llamado `ml-seminario.`
+Para hacer esto, necesitas ejecutar el notebook `studio-setup.ipynb` una vez dentro de SageMaker Studio. Después de hacer esto, puedes usar el kernel **TensorFlow 2.11 Python 3.9 CPU Optimized** con el script de inicio llamado `ml-seminario.`

@@ -6,15 +6,7 @@ Si encuentras algún problema con el código o tienes alguna idea para mejorarlo
 
 ## Ejecución del código
 
-Antes de ejecutar el proyecto, sigue las instrucciones de configuración del archivo setup.md. Después de eso, puedes probar el código ejecutando el siguiente comando:
-
-
-```
-$ nbdev_test --path program/cohort.ipynb
-```
-
-
-Esto ejecutará el cuaderno y asegurará que todo funcione correctamente. Si tienes algún problema, es probable que haya un problema de configuración en tu entorno.
+Antes de ejecutar el proyecto, sigue las instrucciones de configuración del archivo setup.md. 
 
 ## Recursos
 
