@@ -10,4 +10,4 @@ Antes de ejecutar el proyecto, sigue las instrucciones de configuración del arc
 
 ## Recursos
 
-* [Servir un modelo TensorFlow desde una aplicación Flask](penguins/serving/flask/README.md): Una aplicación Flask simple que sirve un modelo de clasificación TensorFlow de varias clases para determinar la especie de un pingüino.
+* [Servir un modelo TensorFlow desde una aplicación Flask](https://github.com/efrenbl/ml_course/blob/main/program/serving/flask/README.md): Una aplicación Flask simple que sirve un modelo de clasificación TensorFlow de varias clases para determinar la especie de un pingüino.
