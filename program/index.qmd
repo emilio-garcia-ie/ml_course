@@ -22,7 +22,7 @@ listing:
 * Procesamiento de datos a escala utilizando paralelismo de datos.
 * Uso de canalizaciones para orquestar flujos de trabajo de aprendizaje automático
 * Una arquitectura de plantilla de un sistema de aprendizaje automático listo para producción.
-* Comprensión del paso de procesamiento y los trab
+* Comprensión del paso de procesamiento 
 
 #### Clase 2: Construyendo Modelos y el Pipeline de Entrenamiento
 
